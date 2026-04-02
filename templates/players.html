@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1><i class="bi bi-people"></i> Players</h1>
+    <div>
+        <a href="/players/add" class="btn btn-success"><i class="bi bi-plus-lg"></i> Add Player</a>
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <form action="/players/search" method="GET" class="row g-3">
+            <div class="col-md-10">
+                <div class="input-group position-relative">
+                    <span class="input-group-text"><i class="bi bi-search"></i></span>
+                    <input type="text" name="q" id="searchInput" class="form-control" placeholder="Search players..." value="{{k or ''}}" autocomplete="off">
+                    <div id="suggestions" class="dropdown-menu w-100" style="top:100%;left:0;"></div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100">Search</button>
+            </div>
+        </form>
+        {% if k %}
+        <div class="mt-2">
+            <span class="text-muted">Searching for: "{{k}}"</span>
+            <a href="/players" class="ms-2"><i class="bi bi-x-circle"></i> Clear</a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="card">
+    <div class="table-responsive">
+        <table class="table table-striped table-hover mb-0">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Team</th>
+                    <th>Position</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for x in p %}
+                <tr>
+                    <td>{{x.player_id}}</td>
+                    <td><strong><a href="/players/{{x.player_id}}">{{x.player_name}}</a></strong></td>
+                    <td>
+                        {% if x.t_abbr %}
+                        <span class="badge bg-primary">{{x.t_abbr}}</span>
+                        {% else %}
+                        <span class="text-muted">-</span>
+                        {% endif %}
+                    </td>
+                    <td>{{x.position or '-'}}</td>
+                    <td>
+                        <a href="/players/{{x.player_id}}/edit" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></a>
+                        <a href="/players/{{x.player_id}}/chart" class="btn btn-sm btn-outline-success"><i class="bi bi-graph-up"></i></a>
+                        <form action="/players/{{x.player_id}}/delete" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this player?')">
+                            <button type="submit" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+var input = document.getElementById('searchInput');
+var suggestions = document.getElementById('suggestions');
+var timeout = null;
+
+input.addEventListener('input', function() {
+    clearTimeout(timeout);
+    var q = this.value;
+    if (q.length < 2) {
+        suggestions.classList.remove('show');
+        return;
+    }
+    timeout = setTimeout(function() {
+        fetch('/api/players?q=' + encodeURIComponent(q))
+            .then(function(r) { return r.json(); })
+            .then(function(data) {
+                if (data.length > 0) {
+                    suggestions.innerHTML = data.map(function(p) {
+                        return '<a class="dropdown-item" href="/players/' + p.player_id + '">' + p.player_name + '</a>';
+                    }).join('');
+                    suggestions.classList.add('show');
+                } else {
+                    suggestions.classList.remove('show');
+                }
+            });
+    }, 300);
+});
+
+document.addEventListener('click', function(e) {
+    if (!input.contains(e.target) && !suggestions.contains(e.target)) {
+        suggestions.classList.remove('show');
+    }
+});
+</script>
+{% endblock %}

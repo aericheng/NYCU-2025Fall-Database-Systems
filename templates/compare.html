@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1><i class="bi bi-arrows-angle-expand"></i> Compare Players</h1>
+</div>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <form class="row g-3">
+            <div class="col-md-4">
+                <label class="form-label">Player 1</label>
+                <select name="id" class="form-select">
+                    <option value="">Select player...</option>
+                    {% for p in all_players %}
+                    <option value="{{p.player_id}}" {% if ids|length > 0 and p.player_id|string == ids[0] %}selected{% endif %}>{{p.player_name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Player 2</label>
+                <select name="id" class="form-select">
+                    <option value="">Select player...</option>
+                    {% for p in all_players %}
+                    <option value="{{p.player_id}}" {% if ids|length > 1 and p.player_id|string == ids[1] %}selected{% endif %}>{{p.player_name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-4 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary w-100"><i class="bi bi-arrow-left-right"></i> Compare</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% if players %}
+<div class="card">
+    <div class="card-header bg-white">
+        <h5 class="mb-0"><i class="bi bi-bar-chart-steps"></i> Comparison Results</h5>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-bordered mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th style="width: 150px;">Stat</th>
+                    {% for p in players %}
+                    <th class="text-center">
+                        <a href="/players/{{p.player_id}}">{{p.player_name}}</a>
+                    </th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><i class="bi bi-person"></i> Name</td>
+                    {% for p in players %}<td class="text-center fw-bold"><a href="/players/{{p.player_id}}">{{p.player_name}}</a></td>{% endfor %}
+                </tr>
+                <tr>
+                    <td><i class="bi bi-building"></i> Team</td>
+                    {% for p in players %}
+                    <td class="text-center">
+                        {% if p.team_name %}<span class="badge bg-primary">{{p.team_name}}</span>{% else %}-{% endif %}
+                    </td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <td><i class="bi bi-person-badge"></i> Position</td>
+                    {% for p in players %}<td class="text-center">{{p.position or '-'}}</td>{% endfor %}
+                </tr>
+                <tr>
+                    <td><i class="bi bi-bullseye"></i> Points (PPG)</td>
+                    {% for p in players %}<td class="text-center fw-bold fs-5 {% if players|length == 2 %}{% if players[0].ppg == players[1].ppg %}table-warning{% elif p.ppg == [players[0].ppg, players[1].ppg]|max %}table-success{% endif %}{% endif %}">{{p.ppg or 0}}</td>{% endfor %}
+                </tr>
+                <tr>
+                    <td><i class="bi bi-arrow-repeat"></i> Rebounds (RPG)</td>
+                    {% for p in players %}<td class="text-center fw-bold {% if players|length == 2 %}{% if players[0].rpg == players[1].rpg %}table-warning{% elif p.rpg == [players[0].rpg, players[1].rpg]|max %}table-success{% endif %}{% endif %}">{{p.rpg or 0}}</td>{% endfor %}
+                </tr>
+                <tr>
+                    <td><i class="bi bi-hand-thumbs-up"></i> Assists (APG)</td>
+                    {% for p in players %}<td class="text-center fw-bold {% if players|length == 2 %}{% if players[0].apg == players[1].apg %}table-warning{% elif p.apg == [players[0].apg, players[1].apg]|max %}table-success{% endif %}{% endif %}">{{p.apg or 0}}</td>{% endfor %}
+                </tr>
+                <tr>
+                    <td><i class="bi bi-hand-index"></i> Steals (SPG)</td>
+                    {% for p in players %}<td class="text-center fw-bold {% if players|length == 2 %}{% if players[0].spg == players[1].spg %}table-warning{% elif p.spg == [players[0].spg, players[1].spg]|max %}table-success{% endif %}{% endif %}">{{p.spg or 0}}</td>{% endfor %}
+                </tr>
+                <tr>
+                    <td><i class="bi bi-shield"></i> Blocks (BPG)</td>
+                    {% for p in players %}<td class="text-center fw-bold {% if players|length == 2 %}{% if players[0].bpg == players[1].bpg %}table-warning{% elif p.bpg == [players[0].bpg, players[1].bpg]|max %}table-success{% endif %}{% endif %}">{{p.bpg or 0}}</td>{% endfor %}
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% else %}
+<div class="card">
+    <div class="card-body text-center py-5">
+        <i class="bi bi-people display-1 text-muted mb-3"></i>
+        <h4>Select Players to Compare</h4>
+        <p class="text-muted">Choose 2-3 players from the dropdowns above to see their stats side by side</p>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

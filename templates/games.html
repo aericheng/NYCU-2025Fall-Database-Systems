@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1><i class="bi bi-calendar-event"></i> Games</h1>
+</div>
+
+<div class="card">
+    <div class="table-responsive">
+        <table class="table table-striped table-hover mb-0">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Home Team</th>
+                    <th class="text-center">Score</th>
+                    <th>Away Team</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for x in g %}
+                <tr>
+                    <td>{{x.game_date}}</td>
+                    <td>
+                        <span class="badge bg-primary">{{x.h_abbr}}</span>
+                        {% if x.home_score > x.away_score %}<i class="bi bi-trophy-fill text-warning ms-1"></i>{% endif %}
+                    </td>
+                    <td class="text-center">
+                        <strong class="{% if x.home_score > x.away_score %}text-success{% else %}text-muted{% endif %}">{{x.home_score}}</strong>
+                        <span class="mx-2">-</span>
+                        <strong class="{% if x.away_score > x.home_score %}text-success{% else %}text-muted{% endif %}">{{x.away_score}}</strong>
+                    </td>
+                    <td>
+                        <span class="badge bg-secondary">{{x.a_abbr}}</span>
+                        {% if x.away_score > x.home_score %}<i class="bi bi-trophy-fill text-warning ms-1"></i>{% endif %}
+                    </td>
+                    <td>
+                        <a href="/games/{{x.game_id}}" class="btn btn-sm btn-primary"><i class="bi bi-eye"></i> Box Score</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

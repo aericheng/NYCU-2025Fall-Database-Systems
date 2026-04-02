@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1><i class="bi bi-bar-chart"></i> Player Stats & Records</h1>
+</div>
+
+<!-- Records Section -->
+<div class="row mb-4">
+    <div class="col-md-4 mb-3">
+        <div class="card h-100">
+            <div class="card-header bg-danger text-white">
+                <h6 class="mb-0"><i class="bi bi-bullseye"></i> Top Points</h6>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover mb-0 table-sm">
+                    <tbody>
+                        {% for r in pts %}
+                        <tr>
+                            <td><span class="badge bg-secondary">{{loop.index}}</span></td>
+                            <td><a href="/players/{{r.player_id}}">{{r.player_name}}</a></td>
+                            <td class="fw-bold text-danger">{{r.points}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-3">
+        <div class="card h-100">
+            <div class="card-header bg-primary text-white">
+                <h6 class="mb-0"><i class="bi bi-arrow-repeat"></i> Top Rebounds</h6>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover mb-0 table-sm">
+                    <tbody>
+                        {% for r in reb %}
+                        <tr>
+                            <td><span class="badge bg-secondary">{{loop.index}}</span></td>
+                            <td><a href="/players/{{r.player_id}}">{{r.player_name}}</a></td>
+                            <td class="fw-bold text-primary">{{r.rebounds}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-3">
+        <div class="card h-100">
+            <div class="card-header bg-success text-white">
+                <h6 class="mb-0"><i class="bi bi-hand-index"></i> Top Assists</h6>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover mb-0 table-sm">
+                    <tbody>
+                        {% for r in ast %}
+                        <tr>
+                            <td><span class="badge bg-secondary">{{loop.index}}</span></td>
+                            <td><a href="/players/{{r.player_id}}">{{r.player_name}}</a></td>
+                            <td class="fw-bold text-success">{{r.assists}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Stats Table Section -->
+<div class="card mb-4">
+    <div class="card-body">
+        <div class="d-flex flex-wrap gap-2 align-items-center">
+            <span class="text-muted me-2">Sort by:</span>
+            <a href="/stats?sort=points&order={{o}}" class="btn btn-sm {% if s=='points' %}btn-primary{% else %}btn-outline-primary{% endif %}">
+                <i class="bi bi-bullseye"></i> Points
+            </a>
+            <a href="/stats?sort=rebounds&order={{o}}" class="btn btn-sm {% if s=='rebounds' %}btn-primary{% else %}btn-outline-primary{% endif %}">
+                <i class="bi bi-arrow-repeat"></i> Rebounds
+            </a>
+            <a href="/stats?sort=assists&order={{o}}" class="btn btn-sm {% if s=='assists' %}btn-primary{% else %}btn-outline-primary{% endif %}">
+                <i class="bi bi-hand-thumbs-up"></i> Assists
+            </a>
+            <a href="/stats?sort=steals&order={{o}}" class="btn btn-sm {% if s=='steals' %}btn-primary{% else %}btn-outline-primary{% endif %}">
+                <i class="bi bi-hand-index"></i> Steals
+            </a>
+            <a href="/stats?sort=blocks&order={{o}}" class="btn btn-sm {% if s=='blocks' %}btn-primary{% else %}btn-outline-primary{% endif %}">
+                <i class="bi bi-shield"></i> Blocks
+            </a>
+            <span class="mx-3 text-muted">|</span>
+            {% if o == 'DESC' %}
+            <a href="/stats?sort={{s}}&order=ASC" class="btn btn-sm btn-outline-secondary">
+                <i class="bi bi-sort-up"></i> ASC
+            </a>
+            {% else %}
+            <a href="/stats?sort={{s}}&order=DESC" class="btn btn-sm btn-outline-secondary">
+                <i class="bi bi-sort-down"></i> DESC
+            </a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="table-responsive">
+        <table class="table table-striped table-hover mb-0">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Player</th>
+                    <th>Team</th>
+                    <th>Date</th>
+                    <th class="text-center">PTS</th>
+                    <th class="text-center">REB</th>
+                    <th class="text-center">AST</th>
+                    <th class="text-center">STL</th>
+                    <th class="text-center">BLK</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for x in d %}
+                <tr>
+                    <td><span class="badge bg-secondary">{{loop.index}}</span></td>
+                    <td><strong><a href="/players/{{x.player_id}}">{{x.player_name}}</a></strong></td>
+                    <td><span class="badge bg-primary">{{x.t_abbr or '-'}}</span></td>
+                    <td>{{x.game_date}}</td>
+                    <td class="text-center {% if s=='points' %}fw-bold text-primary{% endif %}">{{x.points}}</td>
+                    <td class="text-center {% if s=='rebounds' %}fw-bold text-primary{% endif %}">{{x.rebounds}}</td>
+                    <td class="text-center {% if s=='assists' %}fw-bold text-primary{% endif %}">{{x.assists}}</td>
+                    <td class="text-center {% if s=='steals' %}fw-bold text-primary{% endif %}">{{x.steals}}</td>
+                    <td class="text-center {% if s=='blocks' %}fw-bold text-primary{% endif %}">{{x.blocks}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="text-center mb-5">
+    <h1 class="display-4 fw-bold text-primary mb-3"><i class="bi bi-dribbble"></i> NBA Database</h1>
+    <p class="lead text-muted">Explore NBA teams, players, and game statistics</p>
+</div>
+
+<div class="row g-4 mb-5">
+    <div class="col-md-3">
+        <div class="card stat-card">
+            <div class="stat-value">{{c.teams}}</div>
+            <div class="stat-label"><i class="bi bi-building"></i> Teams</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card stat-card">
+            <div class="stat-value">{{c.players}}</div>
+            <div class="stat-label"><i class="bi bi-people"></i> Players</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card stat-card">
+            <div class="stat-value">{{c.games}}</div>
+            <div class="stat-label"><i class="bi bi-calendar-event"></i> Games</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card stat-card">
+            <div class="stat-value">{{c.stats}}</div>
+            <div class="stat-label"><i class="bi bi-bar-chart"></i> Stats</div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body text-center py-4">
+                <i class="bi bi-people display-4 text-primary mb-3"></i>
+                <h5>Players</h5>
+                <p class="text-muted small">Browse and manage player information</p>
+                <a href="/players" class="btn btn-primary btn-sm">View Players</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body text-center py-4">
+                <i class="bi bi-building display-4 text-info mb-3"></i>
+                <h5>Teams</h5>
+                <p class="text-muted small">View all NBA teams and rosters</p>
+                <a href="/teams" class="btn btn-primary btn-sm">View Teams</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body text-center py-4">
+                <i class="bi bi-calendar-event display-4 text-danger mb-3"></i>
+                <h5>Games</h5>
+                <p class="text-muted small">Browse game results and box scores</p>
+                <a href="/games" class="btn btn-primary btn-sm">View Games</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body text-center py-4">
+                <i class="bi bi-bar-chart display-4 text-secondary mb-3"></i>
+                <h5>Stats</h5>
+                <p class="text-muted small">Player stats and single game records</p>
+                <a href="/stats" class="btn btn-primary btn-sm">View Stats</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body text-center py-4">
+                <i class="bi bi-trophy display-4 text-warning mb-3"></i>
+                <h5>Leaders</h5>
+                <p class="text-muted small">Top performers in each category</p>
+                <a href="/leaders" class="btn btn-primary btn-sm">View Leaders</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body text-center py-4">
+                <i class="bi bi-list-ol display-4 text-success mb-3"></i>
+                <h5>Standings</h5>
+                <p class="text-muted small">Team standings and win-loss records</p>
+                <a href="/standings" class="btn btn-primary btn-sm">View Standings</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body text-center py-4">
+                <i class="bi bi-arrow-left-right display-4 text-primary mb-3"></i>
+                <h5>Head to Head</h5>
+                <p class="text-muted small">Compare matchups between teams</p>
+                <a href="/headtohead" class="btn btn-primary btn-sm">View H2H</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body text-center py-4">
+                <i class="bi bi-arrows-angle-expand display-4 text-success mb-3"></i>
+                <h5>Compare</h5>
+                <p class="text-muted small">Compare stats between players</p>
+                <a href="/compare" class="btn btn-primary btn-sm">Compare Players</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body text-center py-4">
+                <i class="bi bi-funnel display-4 text-warning mb-3"></i>
+                <h5>Filter</h5>
+                <p class="text-muted small">Filter players by team and position</p>
+                <a href="/players/filter" class="btn btn-primary btn-sm">Filter Players</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

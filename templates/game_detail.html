@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="mb-4">
+    <a href="/games" class="btn btn-outline-secondary"><i class="bi bi-arrow-left"></i> Back to Games</a>
+</div>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <div class="row align-items-center text-center">
+            <div class="col-md-4">
+                <h3 class="mb-1">{{g.h_name}}</h3>
+                <span class="badge bg-primary fs-5">{{g.h_abbr}}</span>
+                {% if g.home_score > g.away_score %}
+                <div class="mt-2"><span class="badge bg-success"><i class="bi bi-trophy"></i> Winner</span></div>
+                {% endif %}
+            </div>
+            <div class="col-md-4">
+                <div class="display-3 fw-bold">
+                    <span class="{% if g.home_score > g.away_score %}text-success{% else %}text-muted{% endif %}">{{g.home_score}}</span>
+                    <span class="mx-2 text-muted">-</span>
+                    <span class="{% if g.away_score > g.home_score %}text-success{% else %}text-muted{% endif %}">{{g.away_score}}</span>
+                </div>
+                <div class="text-muted mt-2">
+                    <i class="bi bi-calendar"></i> {{g.game_date}} | {{g.season}}
+                </div>
+            </div>
+            <div class="col-md-4">
+                <h3 class="mb-1">{{g.a_name}}</h3>
+                <span class="badge bg-secondary fs-5">{{g.a_abbr}}</span>
+                {% if g.away_score > g.home_score %}
+                <div class="mt-2"><span class="badge bg-success"><i class="bi bi-trophy"></i> Winner</span></div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header bg-white">
+        <h5 class="mb-0"><i class="bi bi-clipboard-data"></i> Box Score</h5>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped table-hover mb-0">
+            <thead>
+                <tr>
+                    <th>Player</th>
+                    <th>Team</th>
+                    <th class="text-center">PTS</th>
+                    <th class="text-center">REB</th>
+                    <th class="text-center">AST</th>
+                    <th class="text-center">STL</th>
+                    <th class="text-center">BLK</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for x in stats %}
+                <tr>
+                    <td><strong><a href="/players/{{x.player_id}}">{{x.player_name}}</a></strong></td>
+                    <td><span class="badge {% if x.t_abbr == g.h_abbr %}bg-primary{% else %}bg-secondary{% endif %}">{{x.t_abbr or '-'}}</span></td>
+                    <td class="text-center fw-bold">{{x.points}}</td>
+                    <td class="text-center">{{x.rebounds}}</td>
+                    <td class="text-center">{{x.assists}}</td>
+                    <td class="text-center">{{x.steals}}</td>
+                    <td class="text-center">{{x.blocks}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
