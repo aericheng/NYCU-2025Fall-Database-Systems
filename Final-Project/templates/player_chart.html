@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="mb-4">
+    <a href="/players/{{p.player_id}}" class="btn btn-outline-secondary"><i class="bi bi-arrow-left"></i> Back to Player</a>
+</div>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <h2 class="mb-0"><i class="bi bi-graph-up"></i> {{p.player_name}} - Performance Chart</h2>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        {% if stats %}
+        <canvas id="chart" height="100"></canvas>
+        {% else %}
+        <div class="text-center py-5">
+            <i class="bi bi-exclamation-circle display-1 text-muted mb-3"></i>
+            <h4>No Stats Available</h4>
+            <p class="text-muted">This player doesn't have any recorded game statistics yet.</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% if stats %}
+<div class="row mt-4">
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <div class="display-6 fw-bold text-danger">{{stats|map(attribute='points')|max}}</div>
+                <div class="text-muted">Season High Points</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <div class="display-6 fw-bold text-primary">{{stats|map(attribute='rebounds')|max}}</div>
+                <div class="text-muted">Season High Rebounds</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <div class="display-6 fw-bold text-success">{{stats|map(attribute='assists')|max}}</div>
+                <div class="text-muted">Season High Assists</div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+{% if stats %}
+var ctx = document.getElementById('chart').getContext('2d');
+new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: [{% for s in stats %}'{{s.game_date}}',{% endfor %}],
+        datasets: [{
+            label: 'Points',
+            data: [{% for s in stats %}{{s.points}},{% endfor %}],
+            borderColor: '#c8102e',
+            backgroundColor: 'rgba(200, 16, 46, 0.1)',
+            fill: true,
+            tension: 0.3
+        },{
+            label: 'Rebounds',
+            data: [{% for s in stats %}{{s.rebounds}},{% endfor %}],
+            borderColor: '#1d428a',
+            backgroundColor: 'rgba(29, 66, 138, 0.1)',
+            fill: true,
+            tension: 0.3
+        },{
+            label: 'Assists',
+            data: [{% for s in stats %}{{s.assists}},{% endfor %}],
+            borderColor: '#28a745',
+            backgroundColor: 'rgba(40, 167, 69, 0.1)',
+            fill: true,
+            tension: 0.3
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'top',
+            },
+            title: {
+                display: false
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+{% endif %}
+</script>
+{% endblock %}

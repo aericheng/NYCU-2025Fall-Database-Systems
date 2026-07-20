@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1><i class="bi bi-list-ol"></i> Team Standings</h1>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="bi bi-geo-alt"></i> Eastern Conference</h5>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead>
+                        <tr><th>#</th><th>Team</th><th>W</th><th>L</th><th>PCT</th></tr>
+                    </thead>
+                    <tbody>
+                        {% set rank = namespace(value=1) %}
+                        {% for t in teams if t.conference == 'East' %}
+                        <tr>
+                            <td>{{rank.value}}{% set rank.value = rank.value + 1 %}</td>
+                            <td><a href="/teams/{{t.team_id}}"><span class="badge bg-primary">{{t.abbreviation}}</span> {{t.team_name}}</a></td>
+                            <td class="text-success fw-bold">{{t.wins}}</td>
+                            <td class="text-danger">{{t.losses}}</td>
+                            <td><span class="badge bg-secondary">{{t.pct}}</span></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-danger text-white">
+                <h5 class="mb-0"><i class="bi bi-geo-alt"></i> Western Conference</h5>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead>
+                        <tr><th>#</th><th>Team</th><th>W</th><th>L</th><th>PCT</th></tr>
+                    </thead>
+                    <tbody>
+                        {% set rank = namespace(value=1) %}
+                        {% for t in teams if t.conference == 'West' %}
+                        <tr>
+                            <td>{{rank.value}}{% set rank.value = rank.value + 1 %}</td>
+                            <td><a href="/teams/{{t.team_id}}"><span class="badge bg-danger">{{t.abbreviation}}</span> {{t.team_name}}</a></td>
+                            <td class="text-success fw-bold">{{t.wins}}</td>
+                            <td class="text-danger">{{t.losses}}</td>
+                            <td><span class="badge bg-secondary">{{t.pct}}</span></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
