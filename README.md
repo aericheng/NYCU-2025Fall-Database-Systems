@@ -14,7 +14,7 @@
 
 This repository collects the final project for the NYCU Introduction to
 Database Systems course: an NBA statistics web application built with Flask
-and a SQLite/MySQL-backed relational schema. The system ingests official NBA
+and a MySQL-backed relational schema. The system ingests official NBA
 data via `nba_api` (teams, players, games, and per-player performance stats)
 and exposes a web UI for CRUD operations plus advanced queries such as
 player-to-player comparison, statistical leaderboards, team standings, and
@@ -26,11 +26,13 @@ below has been preserved from the original team repository.
 
 | Folder | Topic | Summary |
 |--------|-------|---------|
-| [Final-Project](Final-Project/) | NBA Database System（NBA 數據管理系統） | Flask + SQLite/MySQL web application for managing NBA teams, players, games, and stats, with CRUD, player comparison, leaderboards, and head-to-head query features. |
+| [Final-Project](Final-Project/) | NBA Database System（NBA 數據管理系統） | Flask + MySQL web application for managing NBA teams, players, games, and stats, with CRUD, player comparison, leaderboards, and head-to-head query features. |
 
 ## Notes
 
 `Final-Project/` keeps its own original README with full schema design,
 motivation, and setup instructions — please refer to it before running any
-code. Commit history has been preserved from the original team repository;
-this was a team-authored final project.
+code. After the database and data-import steps described there are done,
+start the web app itself with `python main.py` (Flask dev server). Commit
+history has been preserved from the original team repository; this was a
+team-authored final project.

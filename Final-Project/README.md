@@ -504,6 +504,5 @@ def query(sql):
 - 網頁美編由 Claude Code 協助
 
 ### 其他教學
-- Flask 連接 MySQL 教學: https://www.digitalocean.com/community/tutorials/how-to-use-a-mysql-database-in-a-flask-application
 - Python MySQL CRUD 操作: https://www.w3schools.com/python/python_mysql_getstarted.asp
 - tqdm 教學: https://ithelp.ithome.com.tw/articles/10369273
